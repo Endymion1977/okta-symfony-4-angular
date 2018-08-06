@@ -50,4 +50,10 @@ export class MovieService {
             new RequestOptions({ headers: this.headers })
         ).map(res => res.json());
     }
+
+    addMovie(movie): Observable<Movie> {
+        return this.http.post(API_URL + '/movies', movie,
+            new RequestOptions({ headers: this.headers })
+        ).map(res => res.json());
+    }
 }

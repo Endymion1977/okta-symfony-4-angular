@@ -9,6 +9,7 @@ import { OktaAuthModule, OktaCallbackComponent } from '@okta/okta-angular';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
+import { MovieFormComponent } from './movie-form/movie-form.component';
 
 const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -27,7 +28,8 @@ const oktaConfig = {
     declarations: [
         AppComponent,
         HomeComponent,
-        MovieListComponent
+        MovieListComponent,
+        MovieFormComponent
     ],
     imports: [
         BrowserModule,

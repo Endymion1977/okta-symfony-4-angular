@@ -57,4 +57,8 @@ export class MovieListComponent implements OnInit {
             );
     }
 
+    appendMovie(movie: Movie) {
+        this.movies.push(movie);
+    }
+
 }
