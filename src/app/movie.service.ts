@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
 export interface Movie {
     id: Number,
     title: String,
-    count: Number
+    count: Number,
+    isUpdating: boolean
 }
 
 const API_URL: string = 'http://localhost:8000';
@@ -34,6 +35,19 @@ export class MovieService {
         return this.http.get(API_URL + '/movies',
             new RequestOptions({ headers: this.headers })
         )
-        .map(res => res.json());
+        .map(res => {
+            let modifiedResult = res.json();
+            modifiedResult = modifiedResult.map(function(movie) {
+                movie.isUpdating = false;
+                return movie;
+            });
+            return modifiedResult;
+        });
+    }
+
+    increaseCount(id): Observable<Movie> {
+        return this.http.post(API_URL + '/movies/' + id + '/count', {},
+            new RequestOptions({ headers: this.headers })
+        ).map(res => res.json());
     }
 }

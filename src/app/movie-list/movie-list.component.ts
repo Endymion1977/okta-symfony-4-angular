@@ -12,6 +12,7 @@ export class MovieListComponent implements OnInit {
 
     movies: Movie[];
     errorMessage: string;
+    isLoading: boolean = true;
 
     constructor(private movieService: MovieService) {}
 
@@ -23,8 +24,36 @@ export class MovieListComponent implements OnInit {
         this.movieService
             .getMovies()
             .subscribe(
-                movies => this.movies = movies,
+                movies => {
+                    this.movies = movies;
+                    this.isLoading = false;
+                },
                 error => this.errorMessage = <any>error
+            );
+    }
+
+    findMovie(id): Movie {
+        return this.movies.find(movie => movie.id === id);
+    }
+
+    isUpdating(id): boolean {
+        return this.findMovie(id).isUpdating;
+    }
+
+    increaseCount(id) {
+        let movie = this.findMovie(id);
+        movie.isUpdating = true;
+        this.movieService
+            .increaseCount(id)
+            .subscribe(
+                response => {
+                    movie.count = response.count;
+                    movie.isUpdating = false;
+                },
+                error => {
+                    this.errorMessage = <any>error;
+                    movie.isUpdating = false;
+                }
             );
     }
 
