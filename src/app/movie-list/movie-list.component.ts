@@ -1,13 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
-import { OktaAuthService } from '@okta/okta-angular';
+import { Movie, MovieService } from '../movie.service';
 import 'rxjs/Rx';
-
-interface Movie {
-    id: Number,
-    title: String,
-    count: Number
-}
 
 @Component({
     selector: 'app-movie-list',
@@ -16,24 +9,23 @@ interface Movie {
 })
 
 export class MovieListComponent implements OnInit {
-    movies: Array<Movie> [];
 
-    constructor(private oktaAuth: OktaAuthService, private http: Http) {
-        this.movies = [];
+    movies: Movie[];
+    errorMessage: string;
+
+    constructor(private movieService: MovieService) {}
+
+    ngOnInit() {
+        this.getMovies();
     }
 
-    async ngOnInit() {
-        const accessToken = await this.oktaAuth.getAccessToken();
-        const headers = new Headers({
-            Authorization: 'Bearer ' + accessToken
-        });
-        // Make request
-        this.http.get(
-            'http://localhost:8000/movies',
-            new RequestOptions({ headers: headers })
-        )
-        .map(res => res.json())
-        .subscribe((movies: Array<Movie>) => console.log(movies));
+    getMovies() {
+        this.movieService
+            .getMovies()
+            .subscribe(
+                movies => this.movies = movies,
+                error => this.errorMessage = <any>error
+            );
     }
 
 }
