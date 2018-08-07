@@ -14,8 +14,8 @@ import { MovieFormComponent } from './movie-form/movie-form.component';
 const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: 'movies', component: MovieListComponent },
-    { path: 'implicit/callback', component: OktaCallbackComponent }
-    { path: '**', redirectTo: '', pathMatch: 'full' },
+    { path: 'implicit/callback', component: OktaCallbackComponent },
+    { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
 const oktaConfig = {
